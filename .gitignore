@@ -1,0 +1,27 @@
+# .gitignore
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+*.lnk
+
+# Editors / IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs and local data
+*.log
+npm-deploy.log*
+
+# Build / output (если добавишь сборщик)
+dist/
+build/
+out/
+
+# Misc
+node_modules/
+package-lock.json
