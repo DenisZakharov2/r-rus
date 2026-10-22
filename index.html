@@ -12,6 +12,7 @@
       --bg-dark: #070d1f;
       --panel-bg: rgba(15, 23, 42, 0.48);
       --card-glass: rgba(30, 41, 59, 0.38);
+      --neon-pink: #ff4081;
       --glass-border: rgba(255, 255, 255, 0.22);
       --glass-highlight: rgba(255, 255, 255, 0.36);
       --neon-blue: #00e5ff;
@@ -28,7 +29,6 @@
     body.theme-emerald {
       --bg-dark: #041814;
       --panel-bg: rgba(6, 38, 31, 0.48);
-      --card-glass: rgba(10, 52, 42, 0.38);
       --neon-blue: #00f5d4;
       --neon-purple: #a855f7;
       --glow-primary: rgba(0, 245, 212, 0.25);
@@ -37,7 +37,6 @@
     body.theme-cyberpunk {
       --bg-dark: #120722;
       --panel-bg: rgba(28, 12, 48, 0.48);
-      --card-glass: rgba(46, 16, 78, 0.38);
       --neon-blue: #ff007f;
       --neon-purple: #00f0ff;
       --glow-primary: rgba(255, 0, 127, 0.25);
@@ -708,7 +707,7 @@
               <span class="absolute top-1.5 right-2 text-[9px] font-bold text-cyan-300 bg-slate-950/75 px-1.5 py-0.5 rounded pointer-events-none">WebGL 3D 360°</span>
             </div>
             <div class="flex flex-wrap items-center justify-center gap-1.5 w-full max-w-[220px]">
-              <button id="btn-toggle-spin" type="button" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-[11px] font-bold text-cyan-300 whitespace-nowrap">⏸ Стоп / Крутить</button>
+              <button id="btn-toggle-spin" type="button" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-[11px] font-bold text-cyan-300 whitespace-nowrap">⏸ Стоп</button>
               <button id="btn-hero-pet-shoulder" type="button" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-amber-400/40 text-[11px] font-bold text-amber-300 whitespace-nowrap">⇄ Правое плечо</button>
             </div>
           </div>
@@ -1058,7 +1057,7 @@
       function shuffleArray(a) { const c = [...a]; for (let i = c.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [c[i], c[j]] = [c[j], c[i]]; } return c; }
       function formatGapWords(str) {
         if (!str) return '';
-        return String(str).replace(/(?<=\s|[(\«]|\d)-(?=[А-Яа-яЁё])/g, '‑').replace(/(?<=[А-Яа-яЁё])-(?=[\s.,;:!?)\»])/g, '‑').replace(/\S*\[\.\.\]\S*/g, m => `<span class="nowrap-token">${m.replace(/\[\.\.\]/g, '<span class="gap-slot">..</span>')}</span>`);
+        return String(str).replace(/(^|[\s(«\d])-(?=[А-Яа-яЁё])/g, '‑').replace(/(?<=[А-Яа-яЁё])-(?=[\s.,;:!?)»])/g, '‑').replace(/\S*\[\.\.\]\S*/g, m => `<span class="nowrap-token">${m.replace(/\[\.\.\]/g, '<span class="gap-slot">..</span>')}</span>`);
       }
 
       // TASKS DATA — Полные названия частей речи и раздельные вопросы к части речи (posQuestion) и члену предложения (roleQuestion)
@@ -1368,7 +1367,7 @@
           ['pet_dragon','Огненно‑Изумрудный Дракончик',250,10,'🐉']
         ]),
         back: mkItems('back', [
-          ['back_none','Без наспинного аксессуара',0,1,'➖'],
+          ['back_none','Без аксессуара на спине',0,1,'➖'],
           ['back_satchel','Синий портфель Первооткрывателя (Уровень 1)',20,1,'💼'],
           ['back_mini_cape','Алый мини‑плащ Следопыта (Уровень 1)',25,1,'🦸'],
           ['back_bag','Школьный экспедиционный ранец',55,2,'🎒'],
@@ -1392,7 +1391,9 @@
         baseGlasses: [{ val:false, label:'Без очков' }, { val:true, label:'Школьные очки' }]
       };
 
-      const STORAGE_KEY = 'roblox_rus_trainer_save_v9';
+      const STORAGE_KEY = 'r_rus_trainer_save_v10';
+      const LEGACY_STORAGE_KEY = 'roblox_rus_trainer_save_v9';
+      const MODAL_IDS = ['modal-archive','modal-rules','modal-themes','modal-victory','profile-screen','shop-screen','modal-certificate'];
       const MODULE_POOLS = { syntax: SYNTAX_TASKS, cases: CASES_TASKS, declension: DECLENSION_TASKS, conjugation: CONJUGATION_TASKS, morphemes: MORPHEME_TASKS };
       const MODULE_NAMES_RU = {
         syntax: 'Блок 1. Синтаксический разбор предложений',
@@ -2948,7 +2949,7 @@
           ctx.beginPath(); ctx.moveTo(-w * 0.07, h * 0.06); ctx.lineTo(-w * 0.07, h * 0.32); ctx.stroke();
           ctx.beginPath(); ctx.moveTo(w * 0.07, h * 0.06); ctx.lineTo(w * 0.07, h * 0.32); ctx.stroke();
           ctx.fillStyle = '#1e3a8a';
-          ctx.beginPath(); ctx.roundRect(-w * 0.14, -h * 0.14, w * 0.28, h * 0.24, 12); ctx.fill();
+          ctx.beginPath(); ctx.rect(-w * 0.14, -h * 0.14, w * 0.28, h * 0.24); ctx.fill();
           if (isFem) {
             ctx.fillStyle = '#1e3a8a';
             ctx.beginPath(); ctx.moveTo(-w * 0.13, h * 0.04); ctx.lineTo(w * 0.13, h * 0.04); ctx.lineTo(w * 0.19, h * 0.20); ctx.lineTo(-w * 0.19, h * 0.20); ctx.closePath(); ctx.fill();
@@ -3066,27 +3067,38 @@
       function loadState() {
         try {
           let savedSelectedLevel = null;
-          const raw = localStorage.getItem(STORAGE_KEY);
+          let raw = localStorage.getItem(STORAGE_KEY);
+          // Миграция с легаси-ключа localStorage (BUG-04)
+          if (!raw) {
+            const legacy = localStorage.getItem(LEGACY_STORAGE_KEY);
+            if (legacy) {
+              try { localStorage.setItem(STORAGE_KEY, legacy); localStorage.removeItem(LEGACY_STORAGE_KEY); raw = legacy; } catch (_) {}
+            }
+          }
           if (raw) {
-            const p = JSON.parse(raw);
-            if (typeof p.robux === 'number') state.robux = Math.max(0, p.robux);
-            if (typeof p.selectedLevel === 'number') savedSelectedLevel = Math.max(1, Math.min(10, p.selectedLevel));
-            if (typeof p.streak === 'number') state.streak = Math.max(0, p.streak);
-            if (typeof p.errorsTotal === 'number') state.errorsTotal = Math.max(0, p.errorsTotal);
-            if (typeof p.blitzBest === 'number') state.blitzBest = Math.max(0, p.blitzBest);
-            if (typeof p.theme === 'string') state.theme = p.theme;
-            if (typeof p.certificateOffered === 'boolean') state.certificateOffered = p.certificateOffered;
-            if (p.rulesExploredTabs && typeof p.rulesExploredTabs === 'object') state.rulesExploredTabs = { cases: true, ...p.rulesExploredTabs };
-            if (p.rulesMiniQuizAnswers && typeof p.rulesMiniQuizAnswers === 'object') state.rulesMiniQuizAnswers = { ...p.rulesMiniQuizAnswers };
-            if (p.rulesFlippedCards && typeof p.rulesFlippedCards === 'object') state.rulesFlippedCards = { ...p.rulesFlippedCards };
-            state.profile = { ...state.profile, ...(p.profile || {}) };
-            state.equipped = { ...state.equipped, ...(p.equipped || {}) };
-            if (Array.isArray(p.ownedSkins)) state.ownedSkins = Array.from(new Set([...state.ownedSkins, ...p.ownedSkins]));
-            if (Array.isArray(p.ownedThemes)) state.ownedThemes = Array.from(new Set(['default', ...p.ownedThemes]));
-            if (Array.isArray(p.solvedTaskIds)) state.solvedTaskIds = Array.from(new Set(p.solvedTaskIds));
-            if (Array.isArray(p.flawlessTaskIds)) state.flawlessTaskIds = Array.from(new Set(p.flawlessTaskIds));
-            if (Array.isArray(p.rewardedStepKeys)) state.rewardedStepKeys = Array.from(new Set(p.rewardedStepKeys));
-            if (Array.isArray(p.archive)) state.archive = p.archive;
+            let p;
+            try { p = JSON.parse(raw); } catch (_) { p = null; }
+            if (p) {
+              if (typeof p.robux === 'number') state.robux = Math.max(0, p.robux);
+              if (typeof p.selectedLevel === 'number') savedSelectedLevel = Math.max(1, Math.min(10, p.selectedLevel));
+              if (typeof p.streak === 'number') state.streak = Math.max(0, p.streak);
+              if (typeof p.errorsTotal === 'number') state.errorsTotal = Math.max(0, p.errorsTotal);
+              if (typeof p.blitzBest === 'number') state.blitzBest = Math.max(0, p.blitzBest);
+              if (typeof p.theme === 'string') state.theme = p.theme;
+              if (typeof p.certificateOffered === 'boolean') state.certificateOffered = p.certificateOffered;
+              if (p.rulesExploredTabs && typeof p.rulesExploredTabs === 'object') state.rulesExploredTabs = { cases: true, ...p.rulesExploredTabs };
+              if (p.rulesMiniQuizAnswers && typeof p.rulesMiniQuizAnswers === 'object') state.rulesMiniQuizAnswers = { ...p.rulesMiniQuizAnswers };
+              if (p.rulesFlippedCards && typeof p.rulesFlippedCards === 'object') state.rulesFlippedCards = { ...p.rulesFlippedCards };
+              state.profile = { ...state.profile, ...(p.profile || {}) };
+              state.equipped = { ...state.equipped, ...(p.equipped || {}) };
+              if (Array.isArray(p.ownedSkins)) state.ownedSkins = Array.from(new Set([...state.ownedSkins, ...p.ownedSkins]));
+              if (Array.isArray(p.ownedThemes)) state.ownedThemes = Array.from(new Set(['default', ...p.ownedThemes]));
+              if (Array.isArray(p.solvedTaskIds)) state.solvedTaskIds = Array.from(new Set(p.solvedTaskIds));
+              if (Array.isArray(p.flawlessTaskIds)) state.flawlessTaskIds = Array.from(new Set(p.flawlessTaskIds));
+              if (Array.isArray(p.rewardedStepKeys)) state.rewardedStepKeys = Array.from(new Set(p.rewardedStepKeys));
+              if (Array.isArray(p.archive)) state.archive = p.archive;
+              if (typeof p.avatarSpinEnabled === 'boolean') state.avatarSpinEnabled = p.avatarSpinEnabled;
+            }
           }
           enforceGenderEquipmentRules();
           recalculateLevelsAndProgress();
@@ -3110,7 +3122,7 @@
       function awardUniqueReward(stepKey, baseRobux) {
         if (state.rewardedStepKeys.includes(stepKey)) return 0;
         state.rewardedStepKeys.push(stepKey);
-        const earned = Math.max(5, Math.round(baseRobux * (getMultiplier() > 1 ? 1.25 : 1)));
+        const earned = Math.max(1, Math.round(baseRobux * getMultiplier()));
         state.robux += earned;
         saveState(); updateHeaderUI();
         return earned;
@@ -3379,7 +3391,7 @@
       }
 
       function syncBodyScrollLock() {
-        const anyOpen = ['modal-archive','modal-rules','modal-themes','modal-victory','profile-screen','shop-screen','modal-certificate']
+        const anyOpen = MODAL_IDS
           .some(id => { const el = document.getElementById(id); return el && !el.classList.contains('hidden'); });
         document.body.style.overflow = anyOpen ? 'hidden' : '';
       }
@@ -4018,7 +4030,7 @@
 
       // BLOCK 6: BLITZ
       function isAnyModalOpen() {
-        return ['modal-archive','modal-rules','modal-themes','modal-victory','profile-screen','shop-screen','modal-certificate']
+        return MODAL_IDS
           .some(id => { const el = document.getElementById(id); return el && !el.classList.contains('hidden'); });
       }
 
@@ -4156,7 +4168,8 @@
         const p = state.profile || {}, fullName = getStudentDisplayName(), flawlessTotal = (state.flawlessTaskIds || []).length;
         const unlocked = isCertificateUnlocked();
         document.getElementById('cert-student-name').textContent = fullName;
-        document.getElementById('cert-student-school').textContent = `${formatSchoolLabel(p.school, 'Школа не указана')}, ${formatGradeLabel(p.grade)}`;
+        const schoolPart = formatSchoolLabel(p.school, '');
+        document.getElementById('cert-student-school').textContent = [schoolPart, formatGradeLabel(p.grade)].filter(Boolean).join(', ');
         document.getElementById('cert-level-badge').textContent = `Уровень ${state.level} / 10`;
 
         const banner = document.getElementById('cert-status-banner');
@@ -4343,7 +4356,7 @@
       // =====================================================
       const RULES_CASES_DATA = [
         { id:'nom', short:'Именительный', name:'Именительный падеж', helper:'ЕСТЬ', q:'Кто? Что?', preps:'Никогда не употребляется с предлогами!', role:'Обычно ПОДЛЕЖАЩЕЕ (—)', color:'cyan', ex:'Наступила золотая <strong class="text-cyan-300 underline">осень</strong> (есть что?).', tip:'Главный падеж‑командир! Чтобы не перепутать с винительным падежом, подставь слово «лиса» или «земля»: есть лисА / землЯ.' },
-        { id:'gen', short:'Родительный', name:'Родительный падеж', helper:'НЕТ', q:'Кого? Чего?', preps:'у, от, до, из, без, для, около, вокруг, с, возле', role:'Дополнение (- - -), обстоятельство (_. _. _) или определение (~~~)', color:'emerald', ex:'Туристы вышли <strong class="text-emerald-300">из рощИ</strong> (нет чего?). Следы <strong class="text-emerald-300">рыжей лисицЫ</strong> (нет кого?).', tip:'В 1‑м и 3‑м склонении в родительном падеже пишется окончание ‑И или ‑Ы (нет землИ, нет степИ).' },
+        { id:'gen', short:'Родительный', name:'Родительный падеж', helper:'НЕТ', q:'Кого? Чего?', preps:'у, от, до, из, без, для, около, вокруг, с, возле', role:'Дополнение (- - -), обстоятельство (_. _. _) или определение (~~~)', color:'emerald', ex:'Туристы вышли <strong class="text-emerald-300">из рощИ</strong> (нет чего?). Следы <strong class="text-emerald-300">рыжей лисицЫ</strong> (нет кого?).', tip:'В 1‑м склонении в родительном падеже пишется ‑И или ‑Ы (нет землИ, нет лисицЫ), а в 3‑м склонении — только ‑И (нет степИ, нет ночИ).' },
         { id:'dat', short:'Дательный', name:'Дательный падеж', helper:'РАД / ДАМ', q:'Кому? Чему?', preps:'к, по (⚠️ ловушка: гулять ПО площади!)', role:'Дополнение (- - -) или обстоятельство места (по чему? где?)', color:'amber', ex:'Ребята долго гуляли <strong class="text-amber-300">по площадИ</strong> (рад чему?). Птицы летят <strong class="text-amber-300">к рощЕ</strong>.', tip:'Запомни навсегда: предлог «ПО» в значении движения по поверхности (идти по тропинке, по аллее, по площади) требует ДАТЕЛЬНОГО падежа!' },
         { id:'acc', short:'Винительный', name:'Винительный падеж', helper:'ВИЖУ', q:'Кого? Что?', preps:'в, во, на, за, про, через, сквозь', role:'Второстепенный член: дополнение (- - -) или обстоятельство (куда? во что?)', color:'purple', ex:'Художник нарисовал лесную <strong class="text-purple-300">полянУ</strong> (вижу что?). Белочка спрятала шишки <strong class="text-purple-300">в дупло</strong>.', tip:'Как отличить винительный падеж от именительного у неодушевлённых слов? Подставь слово «лиса»: вижу лисУ — значит винительный падеж!' },
         { id:'ins', short:'Творительный', name:'Творительный падеж', helper:'ЛЮБУЮСЬ / ГОРЖУСЬ', q:'Кем? Чем?', preps:'с, со, за, под, над, перед, между', role:'Дополнение (- - -) или обстоятельство (под чем? над чем?)', color:'pink', ex:'Мы любовались весенней <strong class="text-pink-300">радугОЙ</strong> (чем?). Ручеёк журчит <strong class="text-pink-300">под кустами</strong>.', tip:'В окончаниях существительных после шипящих и Ц под ударением пишем О (свечОй, плечОм), без ударения — Е (тучЕй, птицЕй).' },
@@ -4360,7 +4373,7 @@
       ];
 
       const RULES_FLIP_CARDS = [
-        { q:'Почему пишется «гуляли по площадИ», но «бежали по аллеЕ»?', tag:'СКЛОНЕНИЯ И ПАДЕЖИ', a:'Оба слова стоят в дательном падеже (по чему?). Но «площадь» — 3‑е склонение (женский род с мягким знаком, окончание ‑И), а «аллея» — 1‑е склонение на ‑ЕЯ (не на ‑ИЯ!, поэтому окончание ‑Е).' },
+        { q:'Почему пишется «гуляли по площадИ», но «бежали по аллеЕ»?', tag:'СКЛОНЕНИЯ И ПАДЕЖИ', a:'Оба слова стоят в дательном падеже (по чему?). Но «площадь» — 3‑е склонение (женский род с мягким знаком, окончание ‑И), а «аллея» — 1‑е склонение на ‑ЕЯ (не на ‑ИЯ, поэтому окончание ‑Е).' },
         { q:'Почему в слове «ЗВЁЗДНЫЙ» пишется Д, а в слове «ЧУДЕСНЫЙ» буква Т НЕ пишется?', tag:'НЕПРОИЗНОСИМЫЕ СОГЛАСНЫЕ', a:'Проверяем однокоренным словом: «звёзды» — слышится Д (пишем «звёздный»). А в слове «чудеса / чудесен» звука Т нет — значит пишем «чудесный» без Т!' },
         { q:'Как за 2 секунды понять: писать ‑ТСЯ или ‑ТЬСЯ в глаголе?', tag:'ПРАВОПИСАНИЕ ГЛАГОЛОВ', a:'Задай вопрос к глаголу! Если в вопросе ЕСТЬ мягкий знак (что делаТЬ? что сделаТЬ?) — пиши ‑ТЬСЯ. Если в вопросе НЕТ мягкого знака (что делаеТ?) — пиши ‑ТСЯ!' },
         { q:'Почему «на морском побережьЕ» пишется с Е, а «о дальнем плаваниИ» — с И?', tag:'ЛОВУШКА ‑ЬЕ И ‑ИЕ', a:'Слово «плавание» оканчивается на ‑ИЕ (особое правило → в предложном падеже пишем ‑ИИ). А «побережье» оканчивается на ‑ЬЕ (обычное 2‑е склонение, как «на окнЕ» → пишем ‑Е)!' },
@@ -4694,7 +4707,7 @@
                     <h4 class="font-rubik font-black text-base text-cyan-300">I спряжение (пишем Е, ‑УТ / ‑ЮТ)</h4>
                     <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-200">Пароль: «Он Едет, они ЕдУТ»</span>
                   </div>
-                  <p class="text-xs text-slate-200">К <strong>I спряжению</strong> относятся глаголы, которые в неопределённой форме (что делать?) оканчиваются на <strong>‑АТЬ, ‑ЕТЬ, ‑ОТЬ, ‑УТЬ, ‑ЯТЬ, ‑ТИ</strong> (кроме 11 исключений) + <strong>2 глагола‑исключения на ‑ИТЬ:</strong></p>
+                  <p class="text-xs text-slate-200">К <strong>I спряжению</strong> относятся глаголы, которые в неопределённой форме (что делать?) оканчиваются на <strong>‑АТЬ, ‑ЕТЬ, ‑ОТЬ, ‑УТЬ, ‑ЫТЬ, ‑ЯТЬ, ‑ТИ</strong> (кроме 11 исключений) + <strong>2 глагола‑исключения на ‑ИТЬ:</strong></p>
                   <div class="flex flex-wrap gap-2">
                     ${['брить','стелить'].map(v => `<button type="button" data-exc-verb="${v}" class="px-3 py-1.5 rounded-xl font-rubik font-bold text-xs border ${rulesState.selectedExcVerb===v?'bg-cyan-400 text-slate-950 border-white':'bg-slate-800 border-cyan-400/50 text-cyan-300'}">⭐ ${v.toUpperCase()} (I спряжение)</button>`).join('')}
                   </div>
@@ -4806,7 +4819,7 @@
                 </div>
                 <div class="bg-slate-900/85 border border-emerald-500/30 rounded-xl p-3.5 space-y-1.5">
                   <div class="font-rubik font-bold text-xs text-emerald-300">2. Непроизносимые согласные (Т, Д, Л, В)</div>
-                  <p class="text-xs text-slate-200">Проверяй словом, где согласный слышится чётко: <em>звёз<strong>д</strong>ный (звезда), радос<strong>т</strong>ный (радости), счас<strong>т</strong>ливый (счастье), со<strong>л</strong>нце (солнышко), дере<strong>в</strong>ня (деревень)</em>.</p>
+                  <p class="text-xs text-slate-200">Проверяй словом, где согласный слышится чётко: <em>звёз<strong>д</strong>ный (звезда), радос<strong>т</strong>ный (радости), счас<strong>т</strong>ливый (счастье), со<strong>л</strong>нце (солнышко), здра<strong>в</strong>ствуй (здоровье)</em>.</p>
                   <p class="text-[11px] text-amber-300 font-semibold">⚠️ Ловушки БЕЗ «Т»: вкусный (вкусен), чудесный (чудеса), опасный (опасен), прекрасный!</p>
                 </div>
                 <div class="bg-slate-900/85 border border-amber-500/30 rounded-xl p-3.5 space-y-1.5">
@@ -5029,7 +5042,7 @@
         window.addEventListener('pointerdown', unlockAudio, { passive: true });
         window.addEventListener('keydown', unlockAudio, { passive: true });
         loadState(); startAvatar3DLoop();
-        document.getElementById('btn-toggle-spin').addEventListener('click', (e) => { SoundEngine.click(); state.avatarSpinEnabled = !state.avatarSpinEnabled; e.currentTarget.textContent = state.avatarSpinEnabled ? '⏸ Стоп / Крутить' : '▶ Крутить 360°'; });
+        document.getElementById('btn-toggle-spin').addEventListener('click', (e) => { SoundEngine.click(); state.avatarSpinEnabled = !state.avatarSpinEnabled; e.currentTarget.textContent = state.avatarSpinEnabled ? '⏸ Стоп' : '▶ Крутить 360°'; });
         ['hero-podium-box','shop-podium-box','profile-podium-box'].forEach(id => {
           const el = document.getElementById(id);
           if (el) el.addEventListener('pointerdown', e => {
@@ -5187,13 +5200,13 @@
         document.getElementById('btn-close-certificate').addEventListener('click', () => closeModalEl('modal-certificate'));
         document.getElementById('btn-cert-edit-profile').addEventListener('click', () => { closeModalEl('modal-certificate'); openProfileEditor(); });
         document.getElementById('btn-download-cert-png').addEventListener('click', downloadCertificatePng);
-        ['modal-archive','modal-rules','modal-themes','modal-victory','profile-screen','shop-screen','modal-certificate'].forEach(mid => {
+        MODAL_IDS.forEach(mid => {
           const m = document.getElementById(mid);
           if (m) m.addEventListener('click', e => { if (e.target === m) closeModalEl(mid); });
         });
         window.addEventListener('keydown', e => {
           if (e.key === 'Escape') {
-            ['modal-archive','modal-rules','modal-themes','modal-victory','profile-screen','shop-screen','modal-certificate'].forEach(mid => closeModalEl(mid));
+            MODAL_IDS.forEach(mid => closeModalEl(mid));
           }
         });
       });
